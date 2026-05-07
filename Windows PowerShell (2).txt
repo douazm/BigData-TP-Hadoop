@@ -1,0 +1,996 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Tous droits réservés.
+
+Installez la dernière version de PowerShell pour de nouvelles fonctionnalités et améliorations ! https://aka.ms/PSWindows
+
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> dir
+
+
+    Répertoire : C:\Users\LAPTA\PycharmProjects\PythonProject5
+
+
+Mode                 LastWriteTime         Length Name                                                                                             
+----                 -------------         ------ ----                                                                                             
+d-----          5/2/2026  12:01 PM                .idea                                                                                            
+d-----          5/2/2026  11:37 AM                .venv                                                                                            
+-a----          5/2/2026   1:29 PM            626 docker-compose.yml                                                                               
+-a----          5/2/2026  11:43 AM             69 Dockerfile                                                                                       
+-a----          5/2/2026  11:45 AM            542 main.py                                                                                          
+
+
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose up -d
+time="2026-05-02T13:30:06+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] up 6/18
+ ✔ Image bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8 Pulled                                                                                40.0s
+ ✔ Image bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8 Pulled                                                                                40.0s
+ ✔ Network pythonproject5_hadoop-net                     Created                                                                                0.2s
+ ✔ Container hadoop-worker1                              Started                                                                                3.1s
+ ✔ Container hadoop-worker2                              Started                                                                                2.9s
+ ✔ Container hadoop-master                               Started                                                                                3.1s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker ps -a
+CONTAINER ID   IMAGE                                             COMMAND                  CREATED          STATUS                             PORTS                                                                                      NAMES
+4598f8cfb48f   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   20 seconds ago   Up 18 seconds (health: starting)   9864/tcp                                                                                   hadoop-worker2
+1e05bd48e13a   bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   20 seconds ago   Up 18 seconds (health: starting)   0.0.0.0:8088->8088/tcp, [::]:8088->8088/tcp, 0.0.0.0:9870->9870/tcp, [::]:9870->9870/tcp   hadoop-master
+fe87ddbf05e4   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   20 seconds ago   Up 18 seconds (health: starting)   9864/tcp                                                                                   hadoop-worker1
+309e65b14ba5   iot-image                                         "python sensor.py"       18 hours ago     Exited (255) 2 hours ago                                                                                                      sensor
+a4e7103d1fe2   eclipse-mosquitto                                 "/docker-entrypoint.…"   18 hours ago     Exited (255) 2 hours ago           0.0.0.0:1883->1883/tcp                                                                     broker
+ef36a5cb25e4   cassandra:latest                                  "docker-entrypoint.s…"   23 hours ago     Exited (255) 18 hours ago          7000-7001/tcp, 7199/tcp, 9160/tcp, 0.0.0.0:9042->9042/tcp                                  mon-cassandra
+68bcaed1b1ff   cassandra:latest                                  "docker-entrypoint.s…"   23 hours ago     Exited (137) 23 hours ago                                                                                                     pensive_torvalds
+2b93d3e4daf1   iot-image                                         "python sensor.py"       2 days ago       Exited (255) 2 days ago                                                                                                       iot
+33fe996ea598   hello-world:latest                                "/hello"                 2 days ago       Exited (0) 2 days ago                                                                                                         hopeful_rhodes
+e4b9e80d586a   hello-world                                       "/hello"                 2 days ago       Exited (0) 2 days ago                                                                                                         flamboyant_joliot
+e5b933b6a207   hello-world                                       "/hello"                 9 days ago       Exited (0) 9 days ago                                                                                                         gracious_poincare
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@1e05bd48e13a:/# 
+root@1e05bd48e13a:/# ./start-hadoop.sh
+bash: ./start-hadoop.sh: No such file or directory
+root@1e05bd48e13a:/# docker ps -a
+bash: docker: command not found
+root@1e05bd48e13a:/# exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker restart hadoop-worker1 hadoop-worker2
+hadoop-worker1
+hadoop-worker2
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> 
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker restart hadoop-worker1 hadoop-worker2
+hadoop-worker1
+hadoop-worker2
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose down
+time="2026-05-02T14:24:31+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] down 4/4
+ ✔ Container hadoop-worker2          Removed                                                                                                    2.2s
+ ✔ Container hadoop-worker1          Removed                                                                                                    2.1s
+ ✔ Container hadoop-master           Removed                                                                                                    2.5s
+ ✔ Network pythonproject5_hadoop-net Removed                                                                                                    0.4s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose up -d
+time="2026-05-02T14:24:35+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] up 4/4
+ ✔ Network pythonproject5_hadoop-net Created                                                                                                    0.2s
+ ✔ Container hadoop-master           Started                                                                                                    1.3s
+ ✔ Container hadoop-worker1          Started                                                                                                    1.3s
+ ✔ Container hadoop-worker2          Started                                                                                                    1.0s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose down
+time="2026-05-02T14:27:50+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] down 4/4
+ ✔ Container hadoop-worker2          Removed                                                                                                    1.9s
+ ✔ Container hadoop-worker1          Removed                                                                                                    2.0s
+ ✔ Container hadoop-master           Removed                                                                                                    2.2s
+ ✔ Network pythonproject5_hadoop-net Removed                                                                                                    0.5s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose up -d
+time="2026-05-02T14:27:53+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] up 4/4
+ ✔ Network pythonproject5_hadoop-net Created                                                                                                    0.1s
+ ✔ Container hadoop-worker2          Started                                                                                                    1.0s
+ ✔ Container hadoop-master           Started                                                                                                    1.3s
+ ✔ Container hadoop-worker1          Started                                                                                                    1.1s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker ps -a
+CONTAINER ID   IMAGE                                             COMMAND                  CREATED          STATUS                             PORTS                                                                                      NAMES
+da368324e922   bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   13 seconds ago   Up 12 seconds (health: starting)   0.0.0.0:8088->8088/tcp, [::]:8088->8088/tcp, 0.0.0.0:9870->9870/tcp, [::]:9870->9870/tcp   hadoop-master
+f029c1c232db   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   13 seconds ago   Up 12 seconds (health: starting)   9864/tcp                                                                                   hadoop-worker1
+ea71d0cc5154   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   13 seconds ago   Up 12 seconds (health: starting)   9864/tcp                                                                                   hadoop-worker2
+309e65b14ba5   iot-image                                         "python sensor.py"       19 hours ago     Exited (255) 3 hours ago                                                                                                      sensor
+a4e7103d1fe2   eclipse-mosquitto                                 "/docker-entrypoint.…"   19 hours ago     Exited (255) 3 hours ago           0.0.0.0:1883->1883/tcp                                                                     broker
+ef36a5cb25e4   cassandra:latest                                  "docker-entrypoint.s…"   24 hours ago     Exited (255) 19 hours ago          7000-7001/tcp, 7199/tcp, 9160/tcp, 0.0.0.0:9042->9042/tcp                                  mon-cassandra
+68bcaed1b1ff   cassandra:latest                                  "docker-entrypoint.s…"   24 hours ago     Exited (137) 24 hours ago                                                                                                     pensive_torvalds
+2b93d3e4daf1   iot-image                                         "python sensor.py"       2 days ago       Exited (255) 2 days ago                                                                                                       iot
+33fe996ea598   hello-world:latest                                "/hello"                 2 days ago       Exited (0) 2 days ago                                                                                                         hopeful_rhodes
+e4b9e80d586a   hello-world                                       "/hello"                 2 days ago       Exited (0) 2 days ago                                                                                                         flamboyant_joliot
+e5b933b6a207   hello-world                                       "/hello"                 9 days ago       Exited (0) 9 days ago                                                                                                         gracious_poincare
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker ps -a
+CONTAINER ID   IMAGE                                             COMMAND                  CREATED         STATUS                      PORTS                                                                                      NAMES
+da368324e922   bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   4 minutes ago   Up 4 minutes (healthy)      0.0.0.0:8088->8088/tcp, [::]:8088->8088/tcp, 0.0.0.0:9870->9870/tcp, [::]:9870->9870/tcp   hadoop-master
+f029c1c232db   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   4 minutes ago   Up 4 minutes (healthy)      9864/tcp                                                                                   hadoop-worker1
+ea71d0cc5154   bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8   "/entrypoint.sh /run…"   4 minutes ago   Up 4 minutes (healthy)      9864/tcp                                                                                   hadoop-worker2
+309e65b14ba5   iot-image                                         "python sensor.py"       19 hours ago    Exited (255) 3 hours ago                                                                                               sensor
+a4e7103d1fe2   eclipse-mosquitto                                 "/docker-entrypoint.…"   19 hours ago    Exited (255) 3 hours ago    0.0.0.0:1883->1883/tcp                                                                     broker
+ef36a5cb25e4   cassandra:latest                                  "docker-entrypoint.s…"   24 hours ago    Exited (255) 19 hours ago   7000-7001/tcp, 7199/tcp, 9160/tcp, 0.0.0.0:9042->9042/tcp                                  mon-cassandra
+68bcaed1b1ff   cassandra:latest                                  "docker-entrypoint.s…"   24 hours ago    Exited (137) 24 hours ago                                                                                              pensive_torvalds
+2b93d3e4daf1   iot-image                                         "python sensor.py"       2 days ago      Exited (255) 2 days ago                                                                                                iot
+33fe996ea598   hello-world:latest                                "/hello"                 2 days ago      Exited (0) 2 days ago                                                                                                  hopeful_rhodes
+e4b9e80d586a   hello-world                                       "/hello"                 2 days ago      Exited (0) 2 days ago                                                                                                  flamboyant_joliot
+e5b933b6a207   hello-world                                       "/hello"                 9 days ago      Exited (0) 9 days ago                                                                                                  gracious_poincare
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose down -v
+time="2026-05-02T14:41:12+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] down 4/4
+ ✔ Container hadoop-worker2          Removed                                                                                                    1.9s
+ ✔ Container hadoop-worker1          Removed                                                                                                    2.0s
+ ✔ Container hadoop-master           Removed                                                                                                    2.2s
+ ✔ Network pythonproject5_hadoop-net Removed                                                                                                    0.5s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose up -d
+time="2026-05-02T14:41:34+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] up 4/4
+ ✔ Network pythonproject5_hadoop-net Created                                                                                                    0.1s
+ ✔ Container hadoop-worker1          Started                                                                                                    1.5s
+ ✔ Container hadoop-worker2          Started                                                                                                    1.5s
+ ✔ Container hadoop-master           Started                                                                                                    1.5s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@0458e276293c:/# hdfs dfsadmin -report
+Configured Capacity: 0 (0 B)
+Present Capacity: 0 (0 B)
+DFS Remaining: 0 (0 B)
+DFS Used: 0 (0 B)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 0
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+root@0458e276293c:/# exit
+exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose down -v
+time="2026-05-02T14:44:57+01:00" level=warning msg="C:\\Users\\LAPTA\\PycharmProjects\\PythonProject5\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] down 4/4
+ ✔ Container hadoop-worker1          Removed                                                                                                    2.0s
+ ✔ Container hadoop-worker2          Removed                                                                                                    2.0s
+ ✔ Container hadoop-master           Removed                                                                                                    2.3s
+ ✔ Network pythonproject5_hadoop-net Removed                                                                                                    0.5s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose down -v
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose up -d
+[+] up 4/4
+ ✔ Network pythonproject5_hadoop-net Created                                                                                                    0.2s
+ ✔ Container hadoop-master           Started                                                                                                    1.5s
+ ✔ Container hadoop-worker1          Started                                                                                                    1.1s
+ ✔ Container hadoop-worker2          Started                                                                                                    1.5s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master hdfs dfsadmin -report
+Configured Capacity: 0 (0 B)
+Present Capacity: 0 (0 B)
+DFS Remaining: 0 (0 B)
+DFS Used: 0 (0 B)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 0
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose down -v
+[+] down 4/4
+ ✔ Container hadoop-worker2          Removed                                                                                                    1.9s
+ ✔ Container hadoop-master           Removed                                                                                                    2.2s
+ ✔ Container hadoop-worker1          Removed                                                                                                    2.0s
+ ✔ Network pythonproject5_hadoop-net Removed                                                                                                    0.5s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker-compose up -d
+[+] up 4/4
+ ✔ Network pythonproject5_hadoop-net Created                                                                                                    0.2s
+ ✔ Container hadoop-worker1          Started                                                                                                    1.4s
+ ✔ Container hadoop-master           Started                                                                                                    1.4s
+ ✔ Container hadoop-worker2          Started                                                                                                    1.4s
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master hdfs dfsadmin -report
+Configured Capacity: 2162202353664 (1.97 TB)
+Present Capacity: 2035604627456 (1.85 TB)
+DFS Remaining: 2035604578304 (1.85 TB)
+DFS Used: 49152 (48 KB)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 0
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (2):
+
+Name: 172.18.0.3:9866 (hadoop-worker1.pythonproject5_hadoop-net)
+Hostname: b356f359a64d
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 8306507776 (7.74 GB)
+DFS Remaining: 1017802289152 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 13:53:05 UTC 2026
+Last Block Report: Sat May 02 13:50:53 UTC 2026
+Num of Blocks: 0
+
+
+Name: 172.18.0.4:9866 (hadoop-worker2.pythonproject5_hadoop-net)
+Hostname: 1ddf798ac873
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 8306507776 (7.74 GB)
+DFS Remaining: 1017802289152 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 13:53:05 UTC 2026
+Last Block Report: Sat May 02 13:50:53 UTC 2026
+Num of Blocks: 0
+
+
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker logs hadoop-worker1
+Configuring core
+ - Setting fs.defaultFS=hdfs://hadoop-master:9000
+Configuring hdfs
+ - Setting dfs.datanode.data.dir=file:///hadoop/dfs/data
+Configuring yarn
+Configuring httpfs
+Configuring kms
+Configuring mapred
+Configuring for multihomed network
+[1/100] check for hadoop-master:9870...
+[1/100] hadoop-master:9870 is not available yet
+[1/100] try in 5s once again ...
+[2/100] check for hadoop-master:9870...
+[2/100] hadoop-master:9870 is not available yet
+[2/100] try in 5s once again ...
+[3/100] hadoop-master:9870 is available.
+2026-05-02 13:50:48,628 INFO datanode.DataNode: STARTUP_MSG: 
+/************************************************************
+STARTUP_MSG: Starting DataNode
+STARTUP_MSG:   host = b356f359a64d/172.18.0.3
+STARTUP_MSG:   args = []
+STARTUP_MSG:   version = 3.2.1
+STARTUP_MSG:   classpath = /etc/hadoop:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-util-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jersey-core-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/netty-3.10.5.Final.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-xml-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/protobuf-java-2.5.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/httpcore-4.4.10.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-beanutils-1.9.3.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/curator-client-2.13.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/error_prone_annotations-2.2.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-xc-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-admin-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jersey-servlet-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jsch-0.1.54.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-collections-3.2.2.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-configuration2-2.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-compress-1.18.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jersey-json-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-identity-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-common-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jettison-1.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-http-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/slf4j-api-1.7.25.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jsr311-api-1.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/hadoop-auth-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-lang3-3.7.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerby-asn1-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jaxb-impl-2.2.3-1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/curator-framework-2.13.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-core-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerby-util-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jersey-server-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-net-3.6.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerby-config-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/gson-2.2.4.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/snappy-java-1.0.5.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-logging-1.1.3.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-io-2.5.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/avro-1.7.7.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerby-pkix-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-annotations-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-io-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-simplekdc-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-util-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/failureaccess-1.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jaxb-api-2.2.11.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/slf4j-log4j12-1.7.25.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-jaxrs-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/woodstox-core-5.0.3.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/log4j-1.2.17.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/dnsjava-2.1.7.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/checker-qual-2.5.2.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerby-xdr-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-client-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/javax.servlet-api-3.1.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jsr305-3.0.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-crypto-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-math3-3.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jcip-annotations-1.0-1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jsp-api-2.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/hadoop-annotations-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/paranamer-2.3.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-server-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-text-1.4.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/re2j-1.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-mapper-asl-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-codec-1.11.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/httpclient-4.5.6.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/curator-recipes-2.13.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/animal-sniffer-annotations-1.17.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-core-asl-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-webapp-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-servlet-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/commons-cli-1.2.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jul-to-slf4j-1.7.25.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/audience-annotations-0.5.0.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/j2objc-annotations-1.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/json-smart-2.3.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/zookeeper-3.4.13.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/accessors-smart-1.2.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/nimbus-jose-jwt-4.41.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/asm-5.0.4.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jetty-security-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/metrics-core-3.2.4.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/stax2-api-3.1.4.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/jackson-databind-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-core-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/kerb-server-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/htrace-core4-4.1.0-incubating.jar:/opt/hadoop-3.2.1/share/hadoop/common/lib/token-provider-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/hadoop-nfs-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/hadoop-kms-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/hadoop-common-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/common/hadoop-common-3.2.1-tests.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-util-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jersey-core-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/netty-3.10.5.Final.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/okhttp-2.7.5.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-xml-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/protobuf-java-2.5.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/leveldbjni-all-1.8.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/httpcore-4.4.10.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-beanutils-1.9.3.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/curator-client-2.13.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/error_prone_annotations-2.2.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-xc-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-admin-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jersey-servlet-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jsch-0.1.54.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-collections-3.2.2.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-configuration2-2.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-compress-1.18.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jersey-json-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/guava-27.0-jre.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-identity-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-common-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jettison-1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-http-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jsr311-api-1.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/hadoop-auth-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-lang3-3.7.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerby-asn1-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jaxb-impl-2.2.3-1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/curator-framework-2.13.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-core-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/json-simple-1.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerby-util-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jersey-server-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-net-3.6.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-daemon-1.0.13.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerby-config-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/gson-2.2.4.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/snappy-java-1.0.5.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-logging-1.1.3.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-io-2.5.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/avro-1.7.7.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerby-pkix-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-annotations-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-io-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-simplekdc-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-util-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/netty-all-4.0.52.Final.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/failureaccess-1.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jaxb-api-2.2.11.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/okio-1.6.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-jaxrs-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/woodstox-core-5.0.3.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/log4j-1.2.17.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/dnsjava-2.1.7.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/checker-qual-2.5.2.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerby-xdr-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-util-ajax-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-client-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/javax.servlet-api-3.1.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jsr305-3.0.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-crypto-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-math3-3.1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jcip-annotations-1.0-1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/hadoop-annotations-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/paranamer-2.3.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-server-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-text-1.4.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/re2j-1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-mapper-asl-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-codec-1.11.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/httpclient-4.5.6.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/curator-recipes-2.13.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/animal-sniffer-annotations-1.17.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-core-asl-1.9.13.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-webapp-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-servlet-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/commons-cli-1.2.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/audience-annotations-0.5.0.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/j2objc-annotations-1.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/json-smart-2.3.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/zookeeper-3.4.13.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/accessors-smart-1.2.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/nimbus-jose-jwt-4.41.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/asm-5.0.4.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jetty-security-9.3.24.v20180605.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/stax2-api-3.1.4.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/jackson-databind-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-core-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/kerb-server-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/htrace-core4-4.1.0-incubating.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/lib/token-provider-1.0.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-native-client-3.2.1-tests.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-native-client-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-client-3.2.1-tests.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-rbf-3.2.1-tests.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-nfs-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-3.2.1-tests.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-rbf-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-client-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/hdfs/hadoop-hdfs-httpfs-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/lib/junit-4.11.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/lib/hamcrest-core-1.3.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-common-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-uploader-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-nativetask-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-hs-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-hs-plugins-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.2.1-tests.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-shuffle-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-core-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-client-app-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/HikariCP-java7-2.4.12.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/guice-4.0.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/jersey-guice-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/bcpkix-jdk15on-1.60.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/guice-servlet-4.0.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/jersey-client-1.19.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/bcprov-jdk15on-1.60.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/mssql-jdbc-6.2.1.jre7.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/snakeyaml-1.16.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/jackson-jaxrs-json-provider-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/objenesis-1.0.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/java-util-1.9.0.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/swagger-annotations-1.5.4.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/jackson-jaxrs-base-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/jackson-module-jaxb-annotations-2.9.8.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/ehcache-3.3.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/aopalliance-1.0.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/fst-2.50.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/javax.inject-1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/geronimo-jcache_1.0_spec-1.0-alpha-1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/metrics-core-3.2.4.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/lib/json-io-2.5.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-applications-unmanaged-am-launcher-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-api-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-registry-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-tests-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-router-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-services-core-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-applications-distributedshell-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-timeline-pluginstorage-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-nodemanager-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-client-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-resourcemanager-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-web-proxy-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-sharedcachemanager-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-applicationhistoryservice-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-services-api-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-server-common-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-submarine-3.2.1.jar:/opt/hadoop-3.2.1/share/hadoop/yarn/hadoop-yarn-common-3.2.1.jar
+STARTUP_MSG:   build = https://gitbox.apache.org/repos/asf/hadoop.git -r b3cbbb467e22ea829b3808f4b7b01d07e0bf3842; compiled by 'rohithsharmaks' on 2019-09-10T15:56Z
+STARTUP_MSG:   java = 1.8.0_232
+************************************************************/
+2026-05-02 13:50:48,652 INFO datanode.DataNode: registered UNIX signal handlers for [TERM, HUP, INT]
+2026-05-02 13:50:49,417 INFO checker.ThrottledAsyncChecker: Scheduling a check for [DISK]file:/hadoop/dfs/data
+2026-05-02 13:50:49,626 INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2026-05-02 13:50:49,764 INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+2026-05-02 13:50:49,764 INFO impl.MetricsSystemImpl: DataNode metrics system started
+2026-05-02 13:50:50,136 INFO common.Util: dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
+2026-05-02 13:50:50,141 INFO datanode.BlockScanner: Initialized block scanner with targetBytesPerSec 1048576
+2026-05-02 13:50:50,149 INFO datanode.DataNode: Configured hostname is b356f359a64d
+2026-05-02 13:50:50,150 INFO common.Util: dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
+2026-05-02 13:50:50,156 INFO datanode.DataNode: Starting DataNode with maxLockedMemory = 0
+2026-05-02 13:50:50,200 INFO datanode.DataNode: Opened streaming server at /0.0.0.0:9866
+2026-05-02 13:50:50,206 INFO datanode.DataNode: Balancing bandwidth is 10485760 bytes/s
+2026-05-02 13:50:50,206 INFO datanode.DataNode: Number threads for balancing is 50
+2026-05-02 13:50:50,296 INFO util.log: Logging initialized @3047ms
+2026-05-02 13:50:50,523 INFO server.AuthenticationFilter: Unable to initialize FileSignerSecretProvider, falling back to use random secrets.
+2026-05-02 13:50:50,529 INFO http.HttpRequestLog: Http request log for http.requests.datanode is not defined
+2026-05-02 13:50:50,542 INFO http.HttpServer2: Added global filter 'safety' (class=org.apache.hadoop.http.HttpServer2$QuotingInputFilter)
+2026-05-02 13:50:50,548 INFO http.HttpServer2: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context datanode
+2026-05-02 13:50:50,548 INFO http.HttpServer2: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context static
+2026-05-02 13:50:50,548 INFO http.HttpServer2: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context logs
+2026-05-02 13:50:50,591 INFO http.HttpServer2: Jetty bound to port 33827
+2026-05-02 13:50:50,594 INFO server.Server: jetty-9.3.24.v20180605, build timestamp: 2018-06-05T17:11:56Z, git hash: 84205aa28f11a4f31f2a3b86d1bba2cc8ab69827
+2026-05-02 13:50:50,655 INFO handler.ContextHandler: Started o.e.j.s.ServletContextHandler@5038d0b5{/logs,file:///opt/hadoop-3.2.1/logs/,AVAILABLE}
+2026-05-02 13:50:50,657 INFO handler.ContextHandler: Started o.e.j.s.ServletContextHandler@2ad48653{/static,file:///opt/hadoop-3.2.1/share/hadoop/hdfs/webapps/static/,AVAILABLE}
+2026-05-02 13:50:50,791 INFO handler.ContextHandler: Started o.e.j.w.WebAppContext@68034211{/,file:///opt/hadoop-3.2.1/share/hadoop/hdfs/webapps/datanode/,AVAILABLE}{/datanode}
+2026-05-02 13:50:50,833 INFO server.AbstractConnector: Started ServerConnector@275bf9b3{HTTP/1.1,[http/1.1]}{localhost:33827}
+2026-05-02 13:50:50,834 INFO server.Server: Started @3586ms
+2026-05-02 13:50:51,139 INFO web.DatanodeHttpServer: Listening HTTP traffic on /0.0.0.0:9864
+2026-05-02 13:50:51,149 INFO util.JvmPauseMonitor: Starting JVM pause monitor
+2026-05-02 13:50:51,154 INFO datanode.DataNode: dnUserName = root
+2026-05-02 13:50:51,154 INFO datanode.DataNode: supergroup = supergroup
+2026-05-02 13:50:51,222 INFO ipc.CallQueueManager: Using callQueue: class java.util.concurrent.LinkedBlockingQueue, queueCapacity: 1000, scheduler: class org.apache.hadoop.ipc.DefaultRpcScheduler, ipcBackoff: false.
+2026-05-02 13:50:51,245 INFO ipc.Server: Starting Socket Reader #1 for port 9867
+2026-05-02 13:50:51,606 INFO datanode.DataNode: Opened IPC server at /0.0.0.0:9867
+2026-05-02 13:50:51,639 INFO datanode.DataNode: Refresh request received for nameservices: null
+2026-05-02 13:50:51,658 INFO datanode.DataNode: Starting BPOfferServices for nameservices: <default>
+2026-05-02 13:50:51,678 INFO datanode.DataNode: Block pool <registering> (Datanode Uuid unassigned) service to hadoop-master/172.18.0.2:9000 starting to offer service
+2026-05-02 13:50:51,694 INFO ipc.Server: IPC Server Responder: starting
+2026-05-02 13:50:51,696 INFO ipc.Server: IPC Server listener on 9867: starting
+2026-05-02 13:50:52,271 INFO datanode.DataNode: Acknowledging ACTIVE Namenode during handshakeBlock pool <registering> (Datanode Uuid unassigned) service to hadoop-master/172.18.0.2:9000
+2026-05-02 13:50:52,281 INFO common.Storage: Using 1 threads to upgrade data directories (dfs.datanode.parallel.volumes.load.threads.num=1, dataDirs=1)
+2026-05-02 13:50:52,302 INFO common.Storage: Lock on /hadoop/dfs/data/in_use.lock acquired by nodename 92@b356f359a64d
+2026-05-02 13:50:52,306 INFO common.Storage: Storage directory with location [DISK]file:/hadoop/dfs/data is not formatted for namespace 1629824004. Formatting...
+2026-05-02 13:50:52,311 INFO common.Storage: Generated new storageID DS-56ee71bf-8062-4633-886a-4e64eb0b5c51 for directory /hadoop/dfs/data 
+2026-05-02 13:50:52,385 INFO common.Storage: Analyzing storage directories for bpid BP-572162369-172.18.0.2-1777729839753
+2026-05-02 13:50:52,386 INFO common.Storage: Locking is disabled for /hadoop/dfs/data/current/BP-572162369-172.18.0.2-1777729839753
+2026-05-02 13:50:52,388 INFO common.Storage: Block pool storage directory for location [DISK]file:/hadoop/dfs/data and block pool id BP-572162369-172.18.0.2-1777729839753 is not formatted. Formatting ...
+2026-05-02 13:50:52,388 INFO common.Storage: Formatting block pool BP-572162369-172.18.0.2-1777729839753 directory /hadoop/dfs/data/current/BP-572162369-172.18.0.2-1777729839753/current
+2026-05-02 13:50:52,403 INFO datanode.DataNode: Setting up storage: nsid=1629824004;bpid=BP-572162369-172.18.0.2-1777729839753;lv=-57;nsInfo=lv=-65;cid=CID-7b16855e-234d-4a56-b56c-d2c082bb4f97;nsid=1629824004;c=1777729839753;bpid=BP-572162369-172.18.0.2-1777729839753;dnuuid=null
+2026-05-02 13:50:52,408 INFO datanode.DataNode: Generated and persisted new Datanode UUID 780758b6-b918-4eb7-b83d-5bd949510c20
+2026-05-02 13:50:52,656 INFO impl.FsDatasetImpl: Added new volume: DS-56ee71bf-8062-4633-886a-4e64eb0b5c51
+2026-05-02 13:50:52,656 INFO impl.FsDatasetImpl: Added volume - [DISK]file:/hadoop/dfs/data, StorageType: DISK
+2026-05-02 13:50:52,664 INFO impl.FsDatasetImpl: Registered FSDatasetState MBean
+2026-05-02 13:50:52,679 INFO checker.ThrottledAsyncChecker: Scheduling a check for /hadoop/dfs/data
+2026-05-02 13:50:52,698 INFO checker.DatasetVolumeChecker: Scheduled health check for volume /hadoop/dfs/data
+2026-05-02 13:50:52,703 INFO impl.FsDatasetImpl: Adding block pool BP-572162369-172.18.0.2-1777729839753
+2026-05-02 13:50:52,706 INFO impl.FsDatasetImpl: Scanning block pool BP-572162369-172.18.0.2-1777729839753 on volume /hadoop/dfs/data...
+2026-05-02 13:50:52,807 INFO impl.FsDatasetImpl: Time taken to scan block pool BP-572162369-172.18.0.2-1777729839753 on /hadoop/dfs/data: 100ms
+2026-05-02 13:50:52,807 INFO impl.FsDatasetImpl: Total time to scan all replicas for block pool BP-572162369-172.18.0.2-1777729839753: 103ms
+2026-05-02 13:50:52,812 INFO impl.FsDatasetImpl: Adding replicas to map for block pool BP-572162369-172.18.0.2-1777729839753 on volume /hadoop/dfs/data...
+2026-05-02 13:50:52,812 INFO impl.BlockPoolSlice: Replica Cache file: /hadoop/dfs/data/current/BP-572162369-172.18.0.2-1777729839753/current/replicas doesn't exist 
+2026-05-02 13:50:52,819 INFO impl.FsDatasetImpl: Time to add replicas to map for block pool BP-572162369-172.18.0.2-1777729839753 on volume /hadoop/dfs/data: 7ms
+2026-05-02 13:50:52,820 INFO impl.FsDatasetImpl: Total time to add all replicas to map for block pool BP-572162369-172.18.0.2-1777729839753: 10ms
+2026-05-02 13:50:52,825 INFO datanode.VolumeScanner: Now scanning bpid BP-572162369-172.18.0.2-1777729839753 on volume /hadoop/dfs/data
+2026-05-02 13:50:52,831 INFO datanode.VolumeScanner: VolumeScanner(/hadoop/dfs/data, DS-56ee71bf-8062-4633-886a-4e64eb0b5c51): finished scanning block pool BP-572162369-172.18.0.2-1777729839753
+2026-05-02 13:50:52,883 INFO datanode.VolumeScanner: VolumeScanner(/hadoop/dfs/data, DS-56ee71bf-8062-4633-886a-4e64eb0b5c51): no suitable block pools found to scan.  Waiting 1814399941 ms.
+2026-05-02 13:50:52,891 INFO datanode.DirectoryScanner: Periodic Directory Tree Verification scan starting at 5/2/26 4:09 PM with interval of 21600000ms
+2026-05-02 13:50:52,905 INFO datanode.DataNode: Block pool BP-572162369-172.18.0.2-1777729839753 (Datanode Uuid 780758b6-b918-4eb7-b83d-5bd949510c20) service to hadoop-master/172.18.0.2:9000 beginning handshake with NN
+2026-05-02 13:50:53,035 INFO datanode.DataNode: Block pool Block pool BP-572162369-172.18.0.2-1777729839753 (Datanode Uuid 780758b6-b918-4eb7-b83d-5bd949510c20) service to hadoop-master/172.18.0.2:9000 successfully registered with NN
+2026-05-02 13:50:53,036 INFO datanode.DataNode: For namenode hadoop-master/172.18.0.2:9000 using BLOCKREPORT_INTERVAL of 21600000msec CACHEREPORT_INTERVAL of 10000msec Initial delay: 0msec; heartBeatInterval=3000
+2026-05-02 13:50:53,443 INFO datanode.DataNode: Successfully sent block report 0x3d0ae09c7633ce52,  containing 1 storage report(s), of which we sent 1. The reports had 0 total blocks and used 1 RPC(s). This took 10 msec to generate and 151 msecs for RPC and NN processing. Got back one command: FinalizeCommand/5.
+2026-05-02 13:50:53,444 INFO datanode.DataNode: Got finalize command for block pool BP-572162369-172.18.0.2-1777729839753
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master hdfs dfsadmin -report
+Configured Capacity: 2162202353664 (1.97 TB)
+Present Capacity: 2035604627456 (1.85 TB)
+DFS Remaining: 2035604578304 (1.85 TB)
+DFS Used: 49152 (48 KB)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 0
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (2):
+
+Name: 172.18.0.3:9866 (hadoop-worker1.pythonproject5_hadoop-net)
+Hostname: b356f359a64d
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 8306507776 (7.74 GB)
+DFS Remaining: 1017802289152 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 14:00:14 UTC 2026
+Last Block Report: Sat May 02 13:50:53 UTC 2026
+Num of Blocks: 0
+
+
+Name: 172.18.0.4:9866 (hadoop-worker2.pythonproject5_hadoop-net)
+Hostname: 1ddf798ac873
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 8306507776 (7.74 GB)
+DFS Remaining: 1017802289152 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 14:00:14 UTC 2026
+Last Block Report: Sat May 02 13:50:53 UTC 2026
+Num of Blocks: 0
+
+
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker restart hadoop-master
+hadoop-master
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master hdfs dfsadmin -report
+Configured Capacity: 2162202353664 (1.97 TB)
+Present Capacity: 2035602407424 (1.85 TB)
+DFS Remaining: 2035602350080 (1.85 TB)
+DFS Used: 57344 (56 KB)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 0
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (2):
+
+Name: 172.18.0.3:9866 (hadoop-worker1.pythonproject5_hadoop-net)
+Hostname: b356f359a64d
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 28672 (28 KB)
+Non DFS Used: 8307617792 (7.74 GB)
+DFS Remaining: 1017801175040 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 14:02:27 UTC 2026
+Last Block Report: Sat May 02 14:01:42 UTC 2026
+Num of Blocks: 0
+
+
+Name: 172.18.0.4:9866 (hadoop-worker2.pythonproject5_hadoop-net)
+Hostname: 1ddf798ac873
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 28672 (28 KB)
+Non DFS Used: 8307617792 (7.74 GB)
+DFS Remaining: 1017801175040 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 14:02:27 UTC 2026
+Last Block Report: Sat May 02 14:01:42 UTC 2026
+Num of Blocks: 0
+
+
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@b3586d7a74c0:/# docker exec -it hadoop-master bash
+bash: docker: command not found
+root@b3586d7a74c0:/# exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@b3586d7a74c0:/# 
+root@b3586d7a74c0:/# hdfs dfs -mkdir /data
+
+root@b3586d7a74c0:/# hdfs dfs -put test.txt /data
+put: `test.txt': No such file or directory
+root@b3586d7a74c0:/# ls
+KEYS  boot  entrypoint.sh  hadoop       home  lib64  mnt  proc  run     sbin  sys  usr
+bin   dev   etc            hadoop-data  lib   media  opt  root  run.sh  srv   tmp  var
+root@b3586d7a74c0:/# echo "Hello Hadoop" > test.txt
+root@b3586d7a74c0:/# ls
+KEYS  boot  entrypoint.sh  hadoop       home  lib64  mnt  proc  run     sbin  sys       tmp  var
+bin   dev   etc            hadoop-data  lib   media  opt  root  run.sh  srv   test.txt  usr
+root@b3586d7a74c0:/# hdfs dfs -mkdir -p /data
+root@b3586d7a74c0:/# hdfs dfs -put test.txt /data
+2026-05-02 14:07:16,603 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+root@b3586d7a74c0:/# hdfs dfs -ls /data
+Found 1 items
+-rw-r--r--   3 root supergroup         13 2026-05-02 14:07 /data/test.txt
+root@b3586d7a74c0:/# exit
+exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker restart hadoop-master
+hadoop-master
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> nano /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+nano : Le terme «nano» n'est pas reconnu comme nom d'applet de commande, fonction, fichier de script ou programme exécutable. Vérifiez 
+l'orthographe du nom, ou si un chemin d'accès existe, vérifiez que le chemin d'accès est correct et réessayez.
+Au caractère Ligne:1 : 1
++ nano /usr/local/hadoop/etc/hadoop/hdfs-site.xml
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (nano:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> nano /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+nano : Le terme «nano» n'est pas reconnu comme nom d'applet de commande, fonction, fichier de script ou programme exécutable. Vérifiez 
+l'orthographe du nom, ou si un chemin d'accès existe, vérifiez que le chemin d'accès est correct et réessayez.
+Au caractère Ligne:1 : 1
++ nano /usr/local/hadoop/etc/hadoop/hdfs-site.xml
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (nano:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@b3586d7a74c0:/# vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+bash: vi: command not found
+root@b3586d7a74c0:/# 
+root@b3586d7a74c0:/# hdfs dfs -ls /
+
+Found 1 items
+drwxr-xr-x   - root supergroup          0 2026-05-02 14:07 /data
+root@b3586d7a74c0:/# hdfs dfs -mkdir /input
+root@b3586d7a74c0:/# echo "Hello Hadoop" > test.txt
+root@b3586d7a74c0:/# hdfs dfs -put test.txt /input
+2026-05-02 16:56:26,351 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+root@b3586d7a74c0:/# hdfs dfs -ls /input
+Found 1 items
+-rw-r--r--   3 root supergroup         13 2026-05-02 16:56 /input/test.txt
+root@b3586d7a74c0:/# 
+root@b3586d7a74c0:/# hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar wordcount /input /output
+JAR does not exist or is not a normal file: /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar
+root@b3586d7a74c0:/# hdfs dfs -cat /output/part-r-00000
+cat: `/output/part-r-00000': No such file or directory
+root@b3586d7a74c0:/# hdfs dfsadmin -report
+Configured Capacity: 2162202353664 (1.97 TB)
+Present Capacity: 2035600064536 (1.85 TB)
+DFS Remaining: 2035599966208 (1.85 TB)
+DFS Used: 98328 (96.02 KB)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 2
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (2):
+
+Name: 172.18.0.3:9866 (hadoop-worker1.pythonproject5_hadoop-net)
+Hostname: b356f359a64d
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 53248 (52 KB)
+Non DFS Used: 8308785152 (7.74 GB)
+DFS Remaining: 1017799983104 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 16:58:04 UTC 2026
+Last Block Report: Sat May 02 14:14:48 UTC 2026
+Num of Blocks: 2
+
+
+Name: 172.18.0.4:9866 (hadoop-worker2.pythonproject5_hadoop-net)
+Hostname: 1ddf798ac873
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 45080 (44.02 KB)
+Non DFS Used: 8308793320 (7.74 GB)
+DFS Remaining: 1017799983104 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 16:58:04 UTC 2026
+Last Block Report: Sat May 02 14:14:48 UTC 2026
+Num of Blocks: 2
+
+
+
+root@b3586d7a74c0:/# 
+root@b3586d7a74c0:/# find /usr/local/hadoop/share/hadoop/ -name "hadoop-mapreduce-examples-*.jar"
+find: '/usr/local/hadoop/share/hadoop/': No such file or directory
+root@b3586d7a74c0:/# hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.0.jar wordcount /input /output
+JAR does not exist or is not a normal file: /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.0.jar
+root@b3586d7a74c0:/# find /usr/local/hadoop/ -name "hadoop-mapreduce-examples-*.jar"
+find: '/usr/local/hadoop/': No such file or directory
+root@b3586d7a74c0:/# 
+root@b3586d7a74c0:/# docker exec -it hadoop-master bash
+bash: docker: command not found
+root@b3586d7a74c0:/# wget https://downloads.apache.org/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
+bash: wget: command not found
+root@b3586d7a74c0:/# tar -xvzf hadoop-3.2.1.tar.gz
+tar (child): hadoop-3.2.1.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+root@b3586d7a74c0:/# cp hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar /usr/local/hadoop/share/hadoop/mapreduce/
+cp: cannot stat 'hadoop-3.2.1/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar': No such file or directory
+root@b3586d7a74c0:/# hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar wordcount /input /output
+JAR does not exist or is not a normal file: /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar
+root@b3586d7a74c0:/# docker cp hadoop-mapreduce-examples-3.2.1.jar hadoop-master:/usr/local/hadoop/share/hadoop/mapreduce/
+bash: docker: command not found
+root@b3586d7a74c0:/# exit
+exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker cp hadoop-mapreduce-examples-3.2.1.jar hadoop-master:/usr/local/hadoop/share/hadoop/mapreduce/                                                                                                                                         
+GetFileAttributesEx C:\Users\LAPTA\PycharmProjects\PythonProject5\hadoop-mapreduce-examples-3.2.1.jar: The system cannot find the file specified.
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@b3586d7a74c0:/# ls /usr/local/hadoop/share/hadoop/mapreduce/
+ls: cannot access '/usr/local/hadoop/share/hadoop/mapreduce/': No such file or directory
+root@b3586d7a74c0:/# docker cp hadoop-mapreduce-examples-3.2.1.jar hadoop-master:/usr/local/hadoop/
+bash: docker: command not found
+root@b3586d7a74c0:/# hdfs dfs -ls /input
+Found 1 items
+-rw-r--r--   3 root supergroup         13 2026-05-02 16:56 /input/test.txt
+root@b3586d7a74c0:/# hdfs dfsadmin -report
+Configured Capacity: 2162202353664 (1.97 TB)
+Present Capacity: 2035600138240 (1.85 TB)
+DFS Remaining: 2035600031744 (1.85 TB)
+DFS Used: 106496 (104 KB)
+DFS Used%: 0.00%
+Replicated Blocks:
+        Under replicated blocks: 2
+        Blocks with corrupt replicas: 0
+        Missing blocks: 0
+        Missing blocks (with replication factor 1): 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+        Low redundancy block groups: 0
+        Block groups with corrupt internal blocks: 0
+        Missing block groups: 0
+        Low redundancy blocks with highest priority to recover: 0
+        Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (2):
+
+Name: 172.18.0.3:9866 (hadoop-worker1.pythonproject5_hadoop-net)
+Hostname: b356f359a64d
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 53248 (52 KB)
+Non DFS Used: 8308752384 (7.74 GB)
+DFS Remaining: 1017800015872 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 17:08:59 UTC 2026
+Last Block Report: Sat May 02 14:14:48 UTC 2026
+Num of Blocks: 2
+
+
+Name: 172.18.0.4:9866 (hadoop-worker2.pythonproject5_hadoop-net)
+Hostname: 1ddf798ac873
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 53248 (52 KB)
+Non DFS Used: 8308752384 (7.74 GB)
+DFS Remaining: 1017800015872 (947.90 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 94.14%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Sat May 02 17:08:59 UTC 2026
+Last Block Report: Sat May 02 14:14:48 UTC 2026
+Num of Blocks: 2
+
+
+root@b3586d7a74c0:/# docker cp hadoop-mapreduce-examples-3.2.1.jar hadoop-master:/usr/local/hadoop/
+bash: docker: command not found
+root@b3586d7a74c0:/# exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker cp "D:\Nouveau nom (D:)\hadoop-mapreduce-examples-3.2.1.jar" hadoop-master:/usr/local/hadoop/                                                                                                                                          
+GetFileAttributesEx D:\Nouveau nom (D:): The system cannot find the file specified.
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> D:\tp\hadoop-mapreduce-examples-3.2.1.jar
+D:\tp\hadoop-mapreduce-examples-3.2.1.jar : Le terme «D:\tp\hadoop-mapreduce-examples-3.2.1.jar» n'est pas reconnu comme nom d'applet de commande, 
+fonction, fichier de script ou programme exécutable. Vérifiez l'orthographe du nom, ou si un chemin d'accès existe, vérifiez que le chemin d'accès 
+est correct et réessayez.
+Au caractère Ligne:1 : 1
++ D:\tp\hadoop-mapreduce-examples-3.2.1.jar
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\tp\hadoop-ma...mples-3.2.1.jar:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> D:\hadoop-mapreduce-examples-3.2.1 (1).jar
+D:\hadoop-mapreduce-examples-3.2.1 : Le terme «D:\hadoop-mapreduce-examples-3.2.1» n'est pas reconnu comme nom d'applet de commande, fonction, 
+fichier de script ou programme exécutable. Vérifiez l'orthographe du nom, ou si un chemin d'accès existe, vérifiez que le chemin d'accès est 
+correct et réessayez.
+Au caractère Ligne:1 : 1
++ D:\hadoop-mapreduce-examples-3.2.1 (1).jar
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\hadoop-mapreduce-examples-3.2.1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> D:\hadoop-mapreduce-examples-3.2.1 (1).jar
+D:\hadoop-mapreduce-examples-3.2.1 : Le terme «D:\hadoop-mapreduce-examples-3.2.1» n'est pas reconnu comme nom d'applet de commande, fonction, 
+fichier de script ou programme exécutable. Vérifiez l'orthographe du nom, ou si un chemin d'accès existe, vérifiez que le chemin d'accès est 
+correct et réessayez.
+Au caractère Ligne:1 : 1
++ D:\hadoop-mapreduce-examples-3.2.1 (1).jar
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\hadoop-mapreduce-examples-3.2.1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker cp "D:\hadoop-mapreduce-examples-3.2.1 (1).jar" hadoop-master:/usr/local/hadoop/hadoop-mapreduce-examples-3.2.1.jar
+Successfully copied 317kB (transferred 318kB) to hadoop-master:/usr/local/hadoop/hadoop-mapreduce-examples-3.2.1.jar
+Error response from daemon: Could not find the file /usr/local/hadoop in container hadoop-master
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@b3586d7a74c0:/# hadoop jar /usr/local/hadoop/hadoop-mapreduce-examples-3.2.1.jar wordcount /input /output
+JAR does not exist or is not a normal file: /usr/local/hadoop/hadoop-mapreduce-examples-3.2.1.jar
+root@b3586d7a74c0:/# hdfs dfs -cat /output/part-r-00000
+cat: `/output/part-r-00000': No such file or directory
+root@b3586d7a74c0:/# docker cp "D:\hadoop-mapreduce-examples-3.2.1 (1).jar" hadoop-master:/tmp/hadoop-mapreduce-examples-3.2.1.jar
+bash: docker: command not found
+root@b3586d7a74c0:/# 
+root@b3586d7a74c0:/# exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug hadoop-master
+    Learn more at https://docs.docker.com/go/debug-cli/
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker cp "D:\hadoop-mapreduce-examples-3.2.1 (1).jar" hadoop-master:/tmp/hadoop-mapreduce-examples-3.2.1.jar                                                                                                                                 
+Successfully copied 317kB (transferred 318kB) to hadoop-master:/tmp/hadoop-mapreduce-examples-3.2.1.jar
+(.venv) PS C:\Users\LAPTA\PycharmProjects\PythonProject5> docker exec -it hadoop-master bash
+root@b3586d7a74c0:/# hadoop jar /tmp/hadoop-mapreduce-examples-3.2.1.jar wordcount /input /output
+2026-05-02 19:33:20,806 INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2026-05-02 19:33:20,968 INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+2026-05-02 19:33:20,969 INFO impl.MetricsSystemImpl: JobTracker metrics system started
+2026-05-02 19:33:21,584 INFO input.FileInputFormat: Total input files to process : 1
+2026-05-02 19:33:21,644 INFO mapreduce.JobSubmitter: number of splits:1
+2026-05-02 19:33:21,940 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_local1489280588_0001
+2026-05-02 19:33:21,940 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-05-02 19:33:22,183 INFO mapreduce.Job: The url to track the job: http://localhost:8080/
+2026-05-02 19:33:22,186 INFO mapreduce.Job: Running job: job_local1489280588_0001
+2026-05-02 19:33:22,189 INFO mapred.LocalJobRunner: OutputCommitter set in config null
+2026-05-02 19:33:22,206 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 2
+2026-05-02 19:33:22,207 INFO output.FileOutputCommitter: FileOutputCommitter skip cleanup _temporary folders under output directory:false, ignore cleanup failures: false
+2026-05-02 19:33:22,209 INFO mapred.LocalJobRunner: OutputCommitter is org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
+2026-05-02 19:33:22,314 INFO mapred.LocalJobRunner: Waiting for map tasks
+2026-05-02 19:33:22,316 INFO mapred.LocalJobRunner: Starting task: attempt_local1489280588_0001_m_000000_0
+2026-05-02 19:33:22,398 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 2
+2026-05-02 19:33:22,399 INFO output.FileOutputCommitter: FileOutputCommitter skip cleanup _temporary folders under output directory:false, ignore cleanup failures: false
+2026-05-02 19:33:22,482 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+2026-05-02 19:33:22,499 INFO mapred.MapTask: Processing split: hdfs://hadoop-master:9000/input/test.txt:0+13
+2026-05-02 19:33:22,984 INFO mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+2026-05-02 19:33:22,984 INFO mapred.MapTask: mapreduce.task.io.sort.mb: 100
+2026-05-02 19:33:22,984 INFO mapred.MapTask: soft limit at 83886080
+2026-05-02 19:33:22,985 INFO mapred.MapTask: bufstart = 0; bufvoid = 104857600
+2026-05-02 19:33:22,985 INFO mapred.MapTask: kvstart = 26214396; length = 6553600
+2026-05-02 19:33:23,003 INFO mapred.MapTask: Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+2026-05-02 19:33:23,136 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2026-05-02 19:33:23,201 INFO mapreduce.Job: Job job_local1489280588_0001 running in uber mode : false
+2026-05-02 19:33:23,204 INFO mapreduce.Job:  map 0% reduce 0%
+2026-05-02 19:33:23,582 INFO mapred.LocalJobRunner: 
+2026-05-02 19:33:23,595 INFO mapred.MapTask: Starting flush of map output
+2026-05-02 19:33:23,595 INFO mapred.MapTask: Spilling map output
+2026-05-02 19:33:23,595 INFO mapred.MapTask: bufstart = 0; bufend = 21; bufvoid = 104857600
+2026-05-02 19:33:23,595 INFO mapred.MapTask: kvstart = 26214396(104857584); kvend = 26214392(104857568); length = 5/6553600
+2026-05-02 19:33:23,652 INFO mapred.MapTask: Finished spill 0
+2026-05-02 19:33:23,709 INFO mapred.Task: Task:attempt_local1489280588_0001_m_000000_0 is done. And is in the process of committing
+2026-05-02 19:33:23,722 INFO mapred.LocalJobRunner: map
+2026-05-02 19:33:23,723 INFO mapred.Task: Task 'attempt_local1489280588_0001_m_000000_0' done.
+2026-05-02 19:33:23,754 INFO mapred.Task: Final Counters for attempt_local1489280588_0001_m_000000_0: Counters: 24
+        File System Counters
+                FILE: Number of bytes read=316709
+                FILE: Number of bytes written=842036
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=13
+                HDFS: Number of bytes written=0
+                HDFS: Number of read operations=5
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=1
+                HDFS: Number of bytes read erasure-coded=0
+        Map-Reduce Framework
+                Map input records=1
+                Map output records=2
+                Map output bytes=21
+                Map output materialized bytes=31
+                Input split bytes=105
+                Combine input records=2
+                Combine output records=2
+                Spilled Records=2
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=0
+                Total committed heap usage (bytes)=279445504
+        File Input Format Counters 
+                Bytes Read=13
+2026-05-02 19:33:23,755 INFO mapred.LocalJobRunner: Finishing task: attempt_local1489280588_0001_m_000000_0
+2026-05-02 19:33:23,758 INFO mapred.LocalJobRunner: map task executor complete.
+2026-05-02 19:33:23,769 INFO mapred.LocalJobRunner: Waiting for reduce tasks
+2026-05-02 19:33:23,770 INFO mapred.LocalJobRunner: Starting task: attempt_local1489280588_0001_r_000000_0
+2026-05-02 19:33:23,810 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 2
+2026-05-02 19:33:23,810 INFO output.FileOutputCommitter: FileOutputCommitter skip cleanup _temporary folders under output directory:false, ignore cleanup failures: false
+2026-05-02 19:33:23,816 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+2026-05-02 19:33:23,831 INFO mapred.ReduceTask: Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@58f2ee62
+2026-05-02 19:33:23,838 WARN impl.MetricsSystemImpl: JobTracker metrics system already initialized!
+2026-05-02 19:33:23,897 INFO reduce.MergeManagerImpl: MergerManager: memoryLimit=1191654144, maxSingleShuffleLimit=297913536, mergeThreshold=786491776, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+2026-05-02 19:33:23,908 INFO reduce.EventFetcher: attempt_local1489280588_0001_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+2026-05-02 19:33:23,980 INFO reduce.LocalFetcher: localfetcher#1 about to shuffle output of map attempt_local1489280588_0001_m_000000_0 decomp: 27 len: 31 to MEMORY
+2026-05-02 19:33:23,992 INFO reduce.InMemoryMapOutput: Read 27 bytes from map-output for attempt_local1489280588_0001_m_000000_0
+2026-05-02 19:33:23,998 INFO reduce.MergeManagerImpl: closeInMemoryFile -> map-output of size: 27, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->27
+2026-05-02 19:33:24,004 INFO reduce.EventFetcher: EventFetcher is interrupted.. Returning
+2026-05-02 19:33:24,007 INFO mapred.LocalJobRunner: 1 / 1 copied.
+2026-05-02 19:33:24,008 INFO reduce.MergeManagerImpl: finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+2026-05-02 19:33:24,054 INFO mapred.Merger: Merging 1 sorted segments
+2026-05-02 19:33:24,060 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 18 bytes
+2026-05-02 19:33:24,067 INFO reduce.MergeManagerImpl: Merged 1 segments, 27 bytes to disk to satisfy reduce memory limit
+2026-05-02 19:33:24,069 INFO reduce.MergeManagerImpl: Merging 1 files, 31 bytes from disk
+2026-05-02 19:33:24,071 INFO reduce.MergeManagerImpl: Merging 0 segments, 0 bytes from memory into reduce
+2026-05-02 19:33:24,072 INFO mapred.Merger: Merging 1 sorted segments
+2026-05-02 19:33:24,076 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 18 bytes
+2026-05-02 19:33:24,078 INFO mapred.LocalJobRunner: 1 / 1 copied.
+2026-05-02 19:33:24,149 INFO Configuration.deprecation: mapred.skip.on is deprecated. Instead, use mapreduce.job.skiprecords
+2026-05-02 19:33:24,211 INFO mapreduce.Job:  map 100% reduce 0%
+2026-05-02 19:33:24,222 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2026-05-02 19:33:24,397 INFO mapred.Task: Task:attempt_local1489280588_0001_r_000000_0 is done. And is in the process of committing
+2026-05-02 19:33:24,404 INFO mapred.LocalJobRunner: 1 / 1 copied.
+2026-05-02 19:33:24,404 INFO mapred.Task: Task attempt_local1489280588_0001_r_000000_0 is allowed to commit now
+2026-05-02 19:33:24,440 INFO output.FileOutputCommitter: Saved output of task 'attempt_local1489280588_0001_r_000000_0' to hdfs://hadoop-master:9000/output
+2026-05-02 19:33:24,443 INFO mapred.LocalJobRunner: reduce > reduce
+2026-05-02 19:33:24,443 INFO mapred.Task: Task 'attempt_local1489280588_0001_r_000000_0' done.
+2026-05-02 19:33:24,445 INFO mapred.Task: Final Counters for attempt_local1489280588_0001_r_000000_0: Counters: 30
+        File System Counters
+                FILE: Number of bytes read=316803
+                FILE: Number of bytes written=842067
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=13
+                HDFS: Number of bytes written=17
+                HDFS: Number of read operations=10
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=3
+                HDFS: Number of bytes read erasure-coded=0
+        Map-Reduce Framework
+                Combine input records=0
+                Combine output records=0
+                Reduce input groups=2
+                Reduce shuffle bytes=31
+                Reduce input records=2
+                Reduce output records=2
+                Spilled Records=2
+                Shuffled Maps =1
+                Failed Shuffles=0
+                Merged Map outputs=1
+                GC time elapsed (ms)=21
+                Total committed heap usage (bytes)=376963072
+        Shuffle Errors
+                BAD_ID=0
+                CONNECTION=0
+                IO_ERROR=0
+                WRONG_LENGTH=0
+                WRONG_MAP=0
+                WRONG_REDUCE=0
+        File Output Format Counters 
+                Bytes Written=17
+2026-05-02 19:33:24,447 INFO mapred.LocalJobRunner: Finishing task: attempt_local1489280588_0001_r_000000_0
+2026-05-02 19:33:24,447 INFO mapred.LocalJobRunner: reduce task executor complete.
+2026-05-02 19:33:25,220 INFO mapreduce.Job:  map 100% reduce 100%
+2026-05-02 19:33:25,221 INFO mapreduce.Job: Job job_local1489280588_0001 completed successfully
+2026-05-02 19:33:25,258 INFO mapreduce.Job: Counters: 36
+        File System Counters
+                FILE: Number of bytes read=633512
+                FILE: Number of bytes written=1684103
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=26
+                HDFS: Number of bytes written=17
+                HDFS: Number of read operations=15
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=4
+                HDFS: Number of bytes read erasure-coded=0
+        Map-Reduce Framework
+                Map input records=1
+                Map output records=2
+                Map output bytes=21
+                Map output materialized bytes=31
+                Input split bytes=105
+                Combine input records=2
+                Combine output records=2
+                Reduce input groups=2
+                Reduce shuffle bytes=31
+                Reduce input records=2
+                Reduce output records=2
+                Spilled Records=4
+                Shuffled Maps =1
+                Failed Shuffles=0
+                Merged Map outputs=1
+                GC time elapsed (ms)=21
+                Total committed heap usage (bytes)=656408576
+        Shuffle Errors
+                BAD_ID=0
+                CONNECTION=0
+                IO_ERROR=0
+                WRONG_LENGTH=0
+                WRONG_MAP=0
+                WRONG_REDUCE=0
+        File Input Format Counters 
+                Bytes Read=13
+        File Output Format Counters 
+                Bytes Written=17
+root@b3586d7a74c0:/# hdfs dfs -cat /output/part-r-00000
+2026-05-02 19:33:29,768 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Hadoop  1
+Hello   1
+root@b3586d7a74c0:/# hdfs dfs -cat /output/part-r-00000
+2026-05-02 19:34:04,877 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Hadoop  1
+Hello   1
+root@b3586d7a74c0:/# 
